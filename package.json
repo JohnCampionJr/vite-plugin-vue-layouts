@@ -1,7 +1,7 @@
 {
   "name": "vite-plugin-vue-layouts",
-  "description": "File system layout plugin for Vite and Vue",
-  "version": "0.1.0",
+  "description": "Router based layout plugin for Vite and Vue",
+  "version": "0.1.1",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",

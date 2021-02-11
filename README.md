@@ -4,9 +4,29 @@
 
 > Router based layout for Vue 3 applications using [Vite](https://github.com/vitejs/vite)
 
+## Overview
+
+This works best along with the [vite-plugin-pages](https://github.com/hannoeru/vite-plugin-pages).
+
+Layouts are stored in the `/src/layouts` folder by default and are standard Vue components with a `<route-view></route-view>` in the template.
+
+Pages without a layout specified use `default.vue` for their layout.
+
+You can use route blocks to allow each page to determine its layout.  The block below in a page will look for `/src/layouts/users.vue` for its layout.
+
+See the [Vitesse starter template](https://github.com/antfu/vitesse) for a working example.
+
+```html
+<route lang="yaml">
+meta:
+  layout: users
+</route>
+```
+
+
 ## Getting Started
 
-Install Pages:
+Install Layouts:
 
 ```bash
 $ npm install -D vite-plugin-vue-layouts
@@ -24,13 +44,7 @@ export default {
 };
 ```
 
-## Overview
-
-This works best along with the [vite-plugin-pages](https://github.com/hannoeru/vite-plugin-pages).
-
-Layouts are stored in the `/src/layouts` folder by default and are standard Vue components with a `<route-view></route-view>` in the template.
-
-
+In main.ts, you need to add a few lines to import the generated code and setup the layouts.
 
 ```js
 import { createRouter } from 'vue-router'

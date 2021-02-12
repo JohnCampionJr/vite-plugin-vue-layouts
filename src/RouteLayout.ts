@@ -12,7 +12,6 @@ ${importCode}
 
 export function setupLayouts(routes) {
   const RouterLayout = createRouterLayout((layout) => {
-    console.log(layout)
     return Promise.resolve(layouts[\`/${layoutDir}/\${layout}.vue\`]())
   })
 

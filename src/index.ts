@@ -4,6 +4,7 @@ import { ResolvedOptions, UserOptions } from './types'
 import { getFilesFromPath } from './files'
 import { debug, normalizePath } from './utils'
 import getClientCode from './RouteLayout'
+import { getImportCode } from './importCode'
 
 const ID = 'layouts-generated'
 
@@ -46,29 +47,14 @@ function layoutPlugin(userOptions: UserOptions = {}): Plugin {
     },
     async load(id) {
       if (id === ID) {
-        debug('Loading...')
         const layoutsDirPath = normalizePath(resolve(options.root, options.layoutsDir))
         debug('Loading Layout Dir: %O', layoutsDirPath)
 
         const files = await getFilesFromPath(layoutsDirPath, options)
 
-        debug('Layout Files: %O', files)
+        const importCode = getImportCode(files, options)
 
-        const imports: string[] = []
-
-        for (const file of files) {
-          const path = `/${options.layoutsDir}/${file}`
-          imports.push(`'${path}': () => import('${path}'),`)
-        }
-        debug('Layout Imports: %O', imports)
-
-        const importsCode = `const layouts = {
-${imports.join('\n')}
-}`
-
-        debug('Layout Async Code: %O', importsCode)
-
-        const clientCode = getClientCode(importsCode, options.layoutsDir)
+        const clientCode = getClientCode(importCode, options.layoutsDir)
 
         debug('Client code: %O', clientCode)
 

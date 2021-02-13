@@ -1,54 +1,54 @@
 // https://github.com/ktsn/vue-router-layout/blob/master/src/index.ts
 
-function getClientCode(importCode: string, layoutDir: string) {
+function getClientCode(importCode: string) {
   const code = `
 import {
   h,
   defineComponent,
   shallowReactive,
+  resolveComponent
 } from 'vue'
 
 ${importCode}
 
 export function setupLayouts(routes) {
-  const RouterLayout = createRouterLayout((layout) => {
-    return Promise.resolve(layouts[\`/${layoutDir}/\${layout}.vue\`]())
-  })
-
   return [
     {
       path: '/',
-      component: RouterLayout,
+      component: createRouterLayout(layouts),
       children: routes,
     },
   ]
 }
 
+async function resolveLayout(layout) {
+  if (typeof layout === 'function') {
+    return (await layout())?.default
+  }
+  return layout
+} 
+
 export function createRouterLayout(
-  resolve,
+  layouts,
 ) {
   return defineComponent({
     name: 'RouterLayout',
 
     async beforeRouteEnter(to, _from, next) {
-      const name = to.meta.layout || 'default'
-      const layoutComp = name
-        ? (await resolve(name)).default
-        : undefined
+      const name = to.meta?.layout || 'default'
+      const layoutComp = await resolveLayout(layouts[name])
 
       next((vm) => {
         vm.layoutName = name
-        if (name && layoutComp)
-          vm.layouts[name] = layoutComp
+        vm.layouts[name] = layoutComp
       })
     },
 
     async beforeRouteUpdate(to, _from, next) {
       try {
-        const name = to.meta.layout || 'default'
-        if (name && !this.layouts[name])
-          this.layouts[name] = (await resolve(name)).default
-
+        const name = to.meta?.layout || 'default'
+        if (typeof this.layouts[name] === 'function')
+          this.layouts[name] = await resolveLayout(this.layouts[name])
         this.layoutName = name
         next()
       }
@@ -59,17 +59,15 @@ export function createRouterLayout(
 
     data() {
       return {
-        layoutName: undefined,
-        layouts: shallowReactive(
-          Object.create(null),
-        ),
+        layoutName: 'default',
+        layouts: shallowReactive(layouts),
       }
     },
 
     render() {
       const layout = this.layoutName && this.layouts[this.layoutName]
       if (!layout)
-        return h('span')
+        return h(resolveComponent("router-view"))
 
       return h(layout, {
         key: this.layoutName,

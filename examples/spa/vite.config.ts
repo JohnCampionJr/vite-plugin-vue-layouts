@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
 import Pages from 'vite-plugin-pages'
-import Layouts from 'vite-plugin-layouts'
+import Layouts from 'vite-plugin-vue-layouts'
 import Markdown from 'vite-plugin-md'
 
 const config = defineConfig({
@@ -13,9 +13,16 @@ const config = defineConfig({
       extensions: ['vue', 'md'],
       syncIndex: false,
     }),
-    Layouts(),
+    Layouts({
+      importMode: (name) => {
+        return process.env.VITE_SSG || name === 'default' ? 'sync' : 'async'
+      },
+    }),
     Markdown(),
   ],
+  ssgOptions: {
+    formatting: 'prettify',
+  },
 })
 
 export default config

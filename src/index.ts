@@ -12,14 +12,13 @@ function resolveOptions(userOptions: UserOptions): ResolvedOptions {
   const {
     layoutsDir = 'src/layouts',
     exclude = [],
+    importMode = name => name === 'default' ? 'sync' : 'async',
   } = userOptions
-
-  const root = process.cwd()
 
   return Object.assign(
     {},
     {
-      root,
+      importMode,
       layoutsDir,
       exclude,
     },
@@ -28,9 +27,7 @@ function resolveOptions(userOptions: UserOptions): ResolvedOptions {
 }
 
 function layoutPlugin(userOptions: UserOptions = {}): Plugin {
-  let config: ResolvedConfig | undefined
-  const filesPath: string[] = []
-  const pagesDirPaths: string[] = []
+  let config: ResolvedConfig
 
   const options: ResolvedOptions = resolveOptions(userOptions)
 
@@ -39,7 +36,6 @@ function layoutPlugin(userOptions: UserOptions = {}): Plugin {
     enforce: 'pre',
     configResolved(_config) {
       config = _config
-      options.root = config.root
     },
     resolveId(id) {
       if (id === ID)
@@ -47,14 +43,14 @@ function layoutPlugin(userOptions: UserOptions = {}): Plugin {
     },
     async load(id) {
       if (id === ID) {
-        const layoutsDirPath = normalizePath(resolve(options.root, options.layoutsDir))
+        const layoutsDirPath = normalizePath(resolve(config.root, options.layoutsDir))
         debug('Loading Layout Dir: %O', layoutsDirPath)
 
         const files = await getFilesFromPath(layoutsDirPath, options)
 
         const importCode = getImportCode(files, options)
 
-        const clientCode = getClientCode(importCode, options.layoutsDir)
+        const clientCode = getClientCode(importCode)
 
         debug('Client code: %O', clientCode)
 

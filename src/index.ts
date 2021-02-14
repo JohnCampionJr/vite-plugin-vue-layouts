@@ -8,19 +8,18 @@ import { getImportCode } from './importCode'
 
 const ID = 'layouts-generated'
 
-function resolveOptions(userOptions: UserOptions): ResolvedOptions {
-  const {
-    layoutsDir = 'src/layouts',
-    exclude = [],
-    importMode = name => name === 'default' ? 'sync' : 'async',
-  } = userOptions
+export function defaultImportMode(name: string) {
+  if (process.env.VITE_SSG)
+    return 'sync'
+  return name === 'default' ? 'sync' : 'async'
+}
 
+function resolveOptions(userOptions: UserOptions): ResolvedOptions {
   return Object.assign(
-    {},
     {
-      importMode,
-      layoutsDir,
-      exclude,
+      layoutsDir: 'src/layouts',
+      exclude: [],
+      importMode: defaultImportMode,
     },
     userOptions,
   )

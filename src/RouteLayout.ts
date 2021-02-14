@@ -4,10 +4,13 @@ function getClientCode(importCode: string) {
   const code = `
 import {
   h,
+  ref,
+  computed,
   defineComponent,
   shallowReactive,
   resolveComponent
 } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 
 ${importCode}
 
@@ -28,51 +31,36 @@ async function resolveLayout(layout) {
   return layout
 } 
 
-export function createRouterLayout(
-  layouts,
-) {
-  return defineComponent({
-    name: 'RouterLayout',
+export function createRouterLayout(_layouts) {
+  return defineComponent(() => {
+    const router = useRouter()
+    const route = useRoute()
 
-    async beforeRouteEnter(to, _from, next) {
-      const name = to.meta?.layout || 'default'
-      const layoutComp = await resolveLayout(layouts[name])
+    const name = ref('default')
+    const layouts = shallowReactive(_layouts)
+    const layout = computed(() => layouts[name.value])
+  
+    async function updateLayout(_name) {
+      if (typeof layouts[_name] === 'function')
+        layouts[_name] = await resolveLayout(layouts[_name])
+      name.value = _name || 'default'
+    }
 
-      next((vm) => {
-        vm.layoutName = name
-        vm.layouts[name] = layoutComp
+    router.beforeEach(async (to, from, next) => {
+      await updateLayout(to.meta?.layout)
+      next()
+    })
+
+    updateLayout(route.meta?.layout)
+
+    return () => {
+      if (!layout.value || typeof layout.value === 'function')
+        return h(resolveComponent('router-view'))
+
+      return h(layout.value, {
+        key: layout.name,
       })
-    },
-
-    async beforeRouteUpdate(to, _from, next) {
-      try {
-        const name = to.meta?.layout || 'default'
-        if (typeof this.layouts[name] === 'function')
-          this.layouts[name] = await resolveLayout(this.layouts[name])
-        this.layoutName = name
-        next()
-      }
-      catch (error) {
-        next(error)
-      }
-    },
-
-    data() {
-      return {
-        layoutName: 'default',
-        layouts: shallowReactive(layouts),
-      }
-    },
-
-    render() {
-      const layout = this.layoutName && this.layouts[this.layoutName]
-      if (!layout)
-        return h(resolveComponent("router-view"))
-
-      return h(layout, {
-        key: this.layoutName,
-      })
-    },
+    }
   })
 }
 `

@@ -13,11 +13,7 @@ const config = defineConfig({
       extensions: ['vue', 'md'],
       syncIndex: false,
     }),
-    Layouts({
-      importMode: (name) => {
-        return process.env.VITE_SSG || name === 'default' ? 'sync' : 'async'
-      },
-    }),
+    Layouts(),
     Markdown(),
   ],
   ssgOptions: {

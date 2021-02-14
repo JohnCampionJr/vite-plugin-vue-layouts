@@ -38,6 +38,32 @@ importers:
     devDependencies:
       '@vitejs/plugin-vue': 1.1.4_@vue+compiler-sfc@3.0.5
       '@vue/compiler-sfc': 3.0.5_vue@3.0.5
+      cross-env: 7.0.3
+      nodemon: 2.0.7
+      typescript: 4.1.3
+      vite: 2.0.0-beta.65
+      vite-plugin-md: 0.4.2_vite@2.0.0-beta.65
+      vite-plugin-pages: 0.3.0_vite@2.0.0-beta.65+vue@3.0.5
+      vite-plugin-vue-layouts: 'link:../..'
+    specifiers:
+      '@vitejs/plugin-vue': ^1.1.4
+      '@vue/compiler-sfc': ^3.0.5
+      cross-env: ^7.0.3
+      nodemon: ^2.0.7
+      typescript: ^4.1.3
+      vite: ^2.0.0-beta.65
+      vite-plugin-md: ^0.4.2
+      vite-plugin-pages: 0.3.0
+      vite-plugin-vue-layouts: 'workspace:*'
+      vue: ^3.0.5
+      vue-router: 4.0.3
+  examples/ssg:
+    dependencies:
+      vue: 3.0.5
+      vue-router: 4.0.3_vue@3.0.5
+    devDependencies:
+      '@vitejs/plugin-vue': 1.1.4_@vue+compiler-sfc@3.0.5
+      '@vue/compiler-sfc': 3.0.5_vue@3.0.5
       '@vue/server-renderer': 3.0.5_vue@3.0.5
       cross-env: 7.0.3
       nodemon: 2.0.7
@@ -1869,7 +1895,7 @@ packages:
   /fs-extra/9.1.0:
     dependencies:
       at-least-node: 1.0.0
-      graceful-fs: 4.2.6
+      graceful-fs: 4.2.5
       jsonfile: 6.1.0
       universalify: 2.0.0
     dev: true
@@ -2028,10 +2054,6 @@ packages:
     dev: true
     resolution:
       integrity: sha512-kBBSQbz2K0Nyn+31j/w36fUfxkBW9/gfwRWdUY1ULReH3iokVJgddZAFcD1D0xlgTmFxJCbUkUclAlc6/IDJkw==
-  /graceful-fs/4.2.6:
-    dev: true
-    resolution:
-      integrity: sha512-nTnJ528pbqxYanhpDYsi4Rd8MAeaBA67+RZ10CM1m3bTAVFEDcd5AuA4a6W5YkGZ1iNXHzZz8T6TBKLeBuNriQ==
   /gray-matter/4.0.2:
     dependencies:
       js-yaml: 3.14.1
@@ -2593,7 +2615,7 @@ packages:
       universalify: 2.0.0
     dev: true
     optionalDependencies:
-      graceful-fs: 4.2.6
+      graceful-fs: 4.2.5
     resolution:
       integrity: sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==
   /jsprim/1.4.1:
@@ -4458,12 +4480,12 @@ packages:
       node: '>= 10'
     resolution:
       integrity: sha512-gvtVaY+/mQ0OsXgaWy2Tf830JuXN7qEUYdXWsuiJVSkMRsBBQ90YVpQQofaURbhoA1xSbLBf7965oH6ddzNbBQ==
-  /yargs-parser/20.2.4:
+  /yargs-parser/20.2.5:
     dev: true
     engines:
       node: '>=10'
     resolution:
-      integrity: sha512-WOkpgNhPTlE73h4VFAFsOnomJVaovO8VqLDzy5saChRBFQFBoMYirowyW+Q9HB4HFF4Z7VZTiG3iSzJJA29yRA==
+      integrity: sha512-jYRGS3zWy20NtDtK2kBgo/TlAoy5YUuhD9/LZ7z7W4j1Fdw2cqD0xEEclf8fxc8xjD6X5Qr+qQQwCEsP8iRiYg==
   /yargs/16.2.0:
     dependencies:
       cliui: 7.0.4
@@ -4472,7 +4494,7 @@ packages:
       require-directory: 2.1.1
       string-width: 4.2.0
       y18n: 5.0.5
-      yargs-parser: 20.2.4
+      yargs-parser: 20.2.5
     dev: true
     engines:
       node: '>=10'

@@ -5,14 +5,14 @@
       about
     </router-link>
     <p>
-    <router-link to="/news">
-      news
-    </router-link>
+      <router-link to="/news">
+        news
+      </router-link>
     </p>
     <p>
-    <router-link to="/sublayout">
-      sub layout
-    </router-link>
+      <router-link to="/sublayout">
+        sub layout
+      </router-link>
     </p>
   </div>
 </template>

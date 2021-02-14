@@ -13,9 +13,16 @@ const config = defineConfig({
       extensions: ['vue', 'md'],
       syncIndex: false,
     }),
-    Layouts(),
+    Layouts({
+      importMode: (name) => {
+        return process.env.VITE_SSG || name === 'default' ? 'sync' : 'async'
+      },
+    }),
     Markdown(),
   ],
+  ssgOptions: {
+    formatting: 'prettify',
+  },
 })
 
 export default config

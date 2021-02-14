@@ -8,7 +8,8 @@ export function getImportCode(files: string[], options: ResolvedOptions) {
 
   for (const file of files) {
     const path = `/${options.layoutsDir}/${file}`
-    const name = join(dirname(file), parse(file).name)
+    const parsed = parse(file)
+    const name = join(parsed.dir, parsed.name).replace(/\\/g, '/')
     if (options.importMode(name) === 'sync') {
       const variable = `__layout_${id}`
       head.push(`import ${variable} from '${path}'`)

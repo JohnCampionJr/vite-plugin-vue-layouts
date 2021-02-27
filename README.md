@@ -8,7 +8,7 @@
 
 This works best along with the [vite-plugin-pages](https://github.com/hannoeru/vite-plugin-pages).
 
-Layouts are stored in the `/src/layouts` folder by default and are standard Vue components with a `<route-view></route-view>` in the template.
+Layouts are stored in the `/src/layouts` folder by default and are standard Vue components with a `<router-view></router-view>` in the template.
 
 Pages without a layout specified use `default.vue` for their layout.
 
@@ -37,7 +37,7 @@ Add to your `vite.config.js`:
 ```js
 import Vue from '@vitejs/plugin-vue';
 import Pages from 'vite-plugin-pages';
-import Layouts from 'vite-plugin-layouts';
+import Layouts from 'vite-plugin-vue-layouts';
 
 export default {
   plugins: [Vue(), Pages(), Layouts()],

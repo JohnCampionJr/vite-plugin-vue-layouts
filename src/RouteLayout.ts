@@ -36,7 +36,7 @@ export function createRouterLayout(_layouts) {
     const router = useRouter()
     const route = useRoute()
 
-    const name = ref('default')
+    const name = ref('')
     const layouts = shallowReactive(_layouts)
     const layout = computed(() => layouts[name.value])
   

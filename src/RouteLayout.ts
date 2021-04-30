@@ -27,7 +27,8 @@ export function setupLayouts(routes) {
 export function createLayout(pageDefinedLayout) {
   const layout = pageDefinedLayout || 'default'
   return layouts[layout]
-}`
+}
+`
   return code
 }
 

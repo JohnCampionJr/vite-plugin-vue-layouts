@@ -5,18 +5,13 @@ function getClientCode(importCode: string) {
 ${importCode}
 
 export function setupLayouts(routes) {
-  return routes.map((x) => {
+  return routes.map((route) => {
     return { 
-      path: x.path,
-      component: createLayout(x.meta?.layout),
-      children: [x],
+      path: route.path,
+      component: layouts[route.meta?.layout || 'default'],
+      children: [route],
     }
   })
-}
-
-export function createLayout(pageDefinedLayout) {
-  const layout = pageDefinedLayout || 'default'
-  return layouts[layout]
 }
 `
   return code

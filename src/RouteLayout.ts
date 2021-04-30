@@ -2,16 +2,6 @@
 
 function getClientCode(importCode: string) {
   const code = `
-import {
-  h,
-  ref,
-  computed,
-  defineComponent,
-  shallowReactive,
-  resolveComponent
-} from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-
 ${importCode}
 
 export function setupLayouts(routes) {

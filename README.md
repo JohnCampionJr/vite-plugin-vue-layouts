@@ -60,7 +60,7 @@ const router = createRouter({
 ```
 
 ## Client Types
-If you want type definition of `layouts-generated`, add `vite-plugin-vue-layouts/client` to `compilerOptions.types` of your `tsconfig`:
+If you want type definition of `virtual:generated-layouts`, add `vite-plugin-vue-layouts/client` to `compilerOptions.types` of your `tsconfig`:
 ```json
 {
   "compilerOptions": {

@@ -7,6 +7,8 @@ import getClientCode from './RouteLayout'
 import { getImportCode } from './importCode'
 
 const ID = 'layouts-generated'
+const MODULE_IDS = ['layouts-generated', 'virtual:generated-layouts']
+const MODULE_ID_VIRTUAL = '/@vite-plugin-vue-layouts/generated-layouts'
 
 export function defaultImportMode(name: string) {
   if (process.env.VITE_SSG)
@@ -37,11 +39,12 @@ function layoutPlugin(userOptions: UserOptions = {}): Plugin {
       config = _config
     },
     resolveId(id) {
-      if (id === ID)
-        return ID
+      return MODULE_IDS.includes(id) || MODULE_IDS.some(i => id.startsWith(i))
+        ? MODULE_ID_VIRTUAL
+        : null
     },
     async load(id) {
-      if (id === ID) {
+      if (id === MODULE_ID_VIRTUAL) {
         const layoutsDirPath = normalizePath(resolve(config.root, options.layoutsDir))
         debug('Loading Layout Dir: %O', layoutsDirPath)
 

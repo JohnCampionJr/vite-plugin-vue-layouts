@@ -24,7 +24,9 @@
     "release": "npx bumpp --commit --tag --push && npm publish",
     "example:dev": "npm -C examples/spa run dev",
     "example:build": "npm -C examples/spa run build",
-    "example:serve": "npm -C examples/spa run serve"
+    "example:serve": "npm -C examples/spa run serve",
+    "example:build-ssg": "npm -C examples/ssg run build",
+    "example:serve-ssg": "npm -C examples/ssg run serve"
   },
   "dependencies": {
     "@vue/compiler-sfc": "^3.0.11",

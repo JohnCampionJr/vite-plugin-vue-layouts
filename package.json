@@ -18,7 +18,6 @@
     "client.d.ts"
   ],
   "scripts": {
-    "postinstall": "npm update && npm run build",
     "dev": "npm run build -- --watch",
     "build": "tsup src/index.ts --dts --format cjs,esm",
     "prepublishOnly": "npm run build",

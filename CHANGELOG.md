@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.1] - 2021-05-06
+
+### Fixed
+
+- Removed postinstall command that slipped in
+
 ## [0.3.0] - 2021-05-04
 
 ### Fixed

@@ -103,3 +103,85 @@ All .vue files in this folder are imported async into the generated code.
 Any files named `__*__.vue` will be excluded, and you can specify any additional exclusions with the `exclude` option
 
 **Default:** `'src/layouts'`
+
+## Common patterns
+
+`vite-plugin-vue-layouts` transforms the original `router` and replaces every page with its specified layout, and then adds the original page in the `children` property. This conversion brings with it some caveats if you want to implement e.g. transitions on route change. But you also have the full flexibility of the [vue-router API](https://next.router.vuejs.org/api/) at your disposal.
+
+### Transitions
+Transitions work as expected and explained in the [vue-router docs](https://next.router.vuejs.org/guide/advanced/transitions.html) only as long as `Component` changes on each route. So if you want a transition between pages with the same layout *and* a different layout, you have to mutate the `:key` attribute on the `<component>` element. (For a detailed example, see the [vue docs](https://v3.vuejs.org/guide/transitions-enterleave.html#transitioning-between-elements))
+
+E.g. `App.vue`
+```vue
+<template>
+  <router-view v-slot="{ Component, route }">
+    <transition name="slide">
+      <component :is="Component" :key="route" />
+    </transition>
+  </router-view>
+</template>
+```
+
+Now Vue will always trigger a transition if you change the route.
+
+### Exchange data between page and layout
+If you want to send data down *from the layout to the page* use props: `<router-view foo="bar" />`
+
+#### Send data up at compile time
+
+If you want to set some state at compile-time, you can add, e.g. `background` to the `meta` property of the router or use the `<route>` block if you work with [vite-plugin-pages](https://github.com/hannoeru/vite-plugin-pages)
+
+In `page.vue`:
+```vue
+<route lang="yaml">
+meta:
+  layout: default
+  background: yellow
+</route>
+```
+
+Then you have access to `background` in `layout.vue`:
+```vue
+<script setup>
+import { useRouter } from 'vue-router'
+</script>
+<template>
+  <div :style="`background: ${useRouter().currentRoute.value.meta.background};`">
+    <router-view />
+  </div>
+</template>
+```
+#### Dynamically
+
+If you need to set `background` dynamically at run-time, you should use a [custom events](https://v3.vuejs.org/guide/component-custom-events.html#custom-events) and listen for it at the layout.
+
+Emit the event in `page.vue`:
+```vue
+<script setup>
+import { defineEmit } from 'vue'
+const emit = defineEmit(['color'])
+
+if (2 + 2 === 4)
+  emit('color', 'green')
+else
+  emit('color', 'red')
+</script>
+```
+
+Listen for it in `layout.vue`:
+```vue
+<script setup>
+import { ref } from 'vue'
+
+const background = ref('gray')
+const setBackground = (color) => {
+  background.value = color
+}
+</script>
+
+<template>
+  <main :style="`background: ${background};`">
+    <router-view @color="setBackground" />
+  </main>
+</template>
+```

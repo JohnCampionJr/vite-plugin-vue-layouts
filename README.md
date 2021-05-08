@@ -153,7 +153,7 @@ import { useRouter } from 'vue-router'
 ```
 #### Dynamically
 
-If you need to set `background` dynamically at run-time, you should use a [custom events](https://v3.vuejs.org/guide/component-custom-events.html#custom-events) and listen for it at the layout.
+If you need to set `background` dynamically at run-time, you can use [custom events](https://v3.vuejs.org/guide/component-custom-events.html#custom-events) and listen for it at the layout.
 
 Emit the event in `page.vue`:
 ```vue

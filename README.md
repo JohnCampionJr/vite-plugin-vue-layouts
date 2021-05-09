@@ -104,15 +104,38 @@ Any files named `__*__.vue` will be excluded, and you can specify any additional
 
 **Default:** `'src/layouts'`
 
+## How it works
+
+`setupLayouts` transforms the original `router` by
+
+1. Replacing every page with its specified layout
+2. Appending the original page in the `children` property.
+
+Simply put, layouts are [nested routes](https://next.router.vuejs.org/guide/essentials/nested-routes.html#nested-routes) with the same path.
+
+Before:
+```
+router: [ page1, page2, page3 ]
+```
+
+After `setupLayouts()`:
+```
+router: [
+  layoutA: page1,
+  layoutB: page2,
+  layoutA: page3,
+]
+```
+
+That means you have the full flexibility of the [vue-router API](https://next.router.vuejs.org/api/) at your disposal.
+
 ## Common patterns
 
-`vite-plugin-vue-layouts` transforms the original `router` and replaces every page with its specified layout, and then adds the original page in the `children` property. This conversion brings with it some caveats if you want to implement e.g. transitions on route change. But you also have the full flexibility of the [vue-router API](https://next.router.vuejs.org/api/) at your disposal.
-
 ### Transitions
-Transitions work as expected and explained in the [vue-router docs](https://next.router.vuejs.org/guide/advanced/transitions.html) only as long as `Component` changes on each route. So if you want a transition between pages with the same layout *and* a different layout, you have to mutate the `:key` attribute on the `<component>` element. (For a detailed example, see the [vue docs](https://v3.vuejs.org/guide/transitions-enterleave.html#transitioning-between-elements))
+Layouts and Transitions work as expected and explained in the [vue-router docs](https://next.router.vuejs.org/guide/advanced/transitions.html) only as long as `Component` changes on each route. So if you want a transition between pages with the same layout *and* a different layout, you have to mutate `:key` on `<component>` (for a detailed example, see the vue docs about [transitions between elements](https://v3.vuejs.org/guide/transitions-enterleave.html#transitioning-between-elements)).
 
-E.g. `App.vue`
-```vue
+`App.vue`
+```html
 <template>
   <router-view v-slot="{ Component, route }">
     <transition name="slide">
@@ -124,64 +147,72 @@ E.g. `App.vue`
 
 Now Vue will always trigger a transition if you change the route.
 
-### Exchange data between page and layout
-If you want to send data down *from the layout to the page* use props: `<router-view foo="bar" />`
+### Data from layout to page
 
-#### Send data up at compile time
+If you want to send data *down* from the layout to the page, use props
+```
+<router-view foo="bar" />
+```
 
-If you want to set some state at compile-time, you can add, e.g. `background` to the `meta` property of the router or use the `<route>` block if you work with [vite-plugin-pages](https://github.com/hannoeru/vite-plugin-pages)
+### Set static data at the page
+
+If you want to set state in your page and do something with it in your layout, add additional properties to a route's `meta` property. Doing so only works if you know the state at build-time.
+
+You can use the `<route>` block if you work with [vite-plugin-pages](https://github.com/hannoeru/vite-plugin-pages).
 
 In `page.vue`:
-```vue
+```html
+<template><div>Content</div></template>
 <route lang="yaml">
 meta:
   layout: default
-  background: yellow
+  bgColor: yellow
 </route>
 ```
 
-Then you have access to `background` in `layout.vue`:
-```vue
+Now you can read `bgColor` in `layout.vue`:
+```html
 <script setup>
 import { useRouter } from 'vue-router'
 </script>
 <template>
-  <div :style="`background: ${useRouter().currentRoute.value.meta.background};`">
+  <div :style="`background: ${useRouter().currentRoute.value.meta.bgColor};`">
     <router-view />
   </div>
 </template>
 ```
-#### Dynamically
 
-If you need to set `background` dynamically at run-time, you can use [custom events](https://v3.vuejs.org/guide/component-custom-events.html#custom-events) and listen for it at the layout.
+### Data dynamically from page to layout
+
+If you need to set `bgColor` dynamically at run-time, you can use [custom events](https://v3.vuejs.org/guide/component-custom-events.html#custom-events).
 
 Emit the event in `page.vue`:
-```vue
+```html
 <script setup>
 import { defineEmit } from 'vue'
 const emit = defineEmit(['color'])
 
 if (2 + 2 === 4)
-  emit('color', 'green')
+  emit('setColor', 'green')
 else
-  emit('color', 'red')
+  emit('setColor', 'red')
 </script>
 ```
 
-Listen for it in `layout.vue`:
-```vue
+Listen for `setColor` custom-event in `layout.vue`:
+```html
 <script setup>
 import { ref } from 'vue'
 
-const background = ref('gray')
-const setBackground = (color) => {
-  background.value = color
+const bgColor = ref('yellow')
+const setBg = (color) => {
+  bgColor.value = color
 }
 </script>
 
 <template>
-  <main :style="`background: ${background};`">
-    <router-view @color="setBackground" />
+  <main :style="`background: ${bgColor};`">
+    <router-view @set-color="setBg" />
   </main>
 </template>
 ```

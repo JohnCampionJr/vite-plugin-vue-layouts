@@ -32,7 +32,7 @@ function layoutPlugin(userOptions: UserOptions = {}): Plugin {
   const options: ResolvedOptions = resolveOptions(userOptions)
 
   return {
-    name: 'vite-plugin-layouts',
+    name: 'vite-plugin-vue-layouts',
     enforce: 'pre',
     configResolved(_config) {
       config = _config

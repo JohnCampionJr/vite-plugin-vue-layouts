@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.0] - 2021-09-02
+
+### Fixed
+
+- Changed plugin name
+- Merged typings changes
+- Updated dependencies
+
 ## [0.3.1] - 2021-05-06
 
 ### Fixed

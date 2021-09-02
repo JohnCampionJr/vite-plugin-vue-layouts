@@ -6,7 +6,6 @@ import { debug, normalizePath } from './utils'
 import getClientCode from './RouteLayout'
 import { getImportCode } from './importCode'
 
-const ID = 'layouts-generated'
 const MODULE_IDS = ['layouts-generated', 'virtual:generated-layouts']
 const MODULE_ID_VIRTUAL = '/@vite-plugin-vue-layouts/generated-layouts'
 
@@ -33,7 +32,7 @@ function layoutPlugin(userOptions: UserOptions = {}): Plugin {
   const options: ResolvedOptions = resolveOptions(userOptions)
 
   return {
-    name: 'vite-plugin-layouts',
+    name: 'vite-plugin-vue-layouts',
     enforce: 'pre',
     configResolved(_config) {
       config = _config

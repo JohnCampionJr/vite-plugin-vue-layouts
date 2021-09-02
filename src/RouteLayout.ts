@@ -1,5 +1,3 @@
-// https://github.com/ktsn/vue-router-layout/blob/master/src/index.ts
-
 function getClientCode(importCode: string) {
   const code = `
 ${importCode}

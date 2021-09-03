@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.1] - 2021-09-03
+
+### Fixed
+
+- Accidentally moved type declaration import to wrong place
+
 ## [0.4.0] - 2021-09-02
 
 ### Fixed

@@ -11,7 +11,11 @@ interface Options {
    * List of path globs to exclude when resolving pages.
    */
   exclude: string[]
-
+  /**
+   * Filename of default layout (".vue" is not needed)
+   * @default 'default'
+   */
+  defaultLayout: string
   /**
    * Mode for importing layouts
    */

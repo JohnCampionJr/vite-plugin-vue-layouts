@@ -18,6 +18,7 @@ export function defaultImportMode(name: string) {
 function resolveOptions(userOptions: UserOptions): ResolvedOptions {
   return Object.assign(
     {
+      defaultLayout: 'default',
       layoutsDir: 'src/layouts',
       exclude: [],
       importMode: defaultImportMode,
@@ -51,7 +52,7 @@ function layoutPlugin(userOptions: UserOptions = {}): Plugin {
 
         const importCode = getImportCode(files, options)
 
-        const clientCode = getClientCode(importCode)
+        const clientCode = getClientCode(importCode, options)
 
         debug('Client code: %O', clientCode)
 

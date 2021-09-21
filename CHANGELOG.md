@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.0] - 2021-09-21
+
+### Added
+
+- New option to specify default layout name
+
+### Fixed
+
+- Added vue2 peer dependency (closed #38) - [@byoungd](https://github.com/byoungd)
+
 ## [0.4.1] - 2021-09-03
 
 ### Fixed

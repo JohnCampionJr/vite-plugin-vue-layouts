@@ -13,7 +13,9 @@ const config = defineConfig({
       extensions: ['vue', 'md'],
       syncIndex: false,
     }),
-    Layouts(),
+    Layouts({
+      defaultLayout: 'Default'
+    }),
     Markdown(),
   ],
 })

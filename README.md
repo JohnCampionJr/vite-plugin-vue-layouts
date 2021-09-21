@@ -75,12 +75,13 @@ If you want type definition of `virtual:generated-layouts`, add `vite-plugin-vue
 interface UserOptions {
   layoutsDir?: string
   exclude: string[]
+  defaultLayout?: string
 }
 ```
 
 ### Using configuration
 
-To use custom configuration, pass your options to Pages when instantiating the plugin:
+To use custom configuration, pass your options to Layouts when instantiating the plugin:
 
 ```js
 // vite.config.js
@@ -90,6 +91,7 @@ export default {
   plugins: [
     Layouts({
       layoutsDir: 'src/mylayouts',
+      defaultLayout: 'myDefault'
     }),
   ],
 };

@@ -20,6 +20,7 @@ function resolveOptions(userOptions: UserOptions): ResolvedOptions {
     {
       defaultLayout: 'default',
       layoutsDir: 'src/layouts',
+      extensions: ['.vue'],
       exclude: [],
       importMode: defaultImportMode,
     },

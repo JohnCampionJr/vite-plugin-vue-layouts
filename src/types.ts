@@ -8,6 +8,11 @@ interface Options {
    */
   layoutsDir: string
   /**
+   * Valid file extensions for page components.
+   * @default ['vue']
+   */
+  extensions: string[]
+  /**
    * List of path globs to exclude when resolving pages.
    */
   exclude: string[]

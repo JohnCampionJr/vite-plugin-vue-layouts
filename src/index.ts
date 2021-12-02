@@ -1,6 +1,6 @@
 import { resolve } from 'path'
 import type { Plugin, ResolvedConfig } from 'vite'
-import { ResolvedOptions, UserOptions } from './types'
+import { ResolvedOptions, UserOptions, FileContainer } from './types'
 import { getFilesFromPath } from './files'
 import { debug, normalizePath } from './utils'
 import getClientCode from './RouteLayout'
@@ -19,7 +19,7 @@ function resolveOptions(userOptions: UserOptions): ResolvedOptions {
   return Object.assign(
     {
       defaultLayout: 'default',
-      layoutsDir: 'src/layouts',
+      layoutsDirs: 'src/layouts',
       exclude: [],
       importMode: defaultImportMode,
     },
@@ -45,17 +45,23 @@ function layoutPlugin(userOptions: UserOptions = {}): Plugin {
     },
     async load(id) {
       if (id === MODULE_ID_VIRTUAL) {
-        const layoutsDirPath = normalizePath(resolve(config.root, options.layoutsDir))
-        debug('Loading Layout Dir: %O', layoutsDirPath)
+        const layoutDirs = Array.isArray(options.layoutsDirs) ? options.layoutsDirs : [options.layoutsDirs]
+        const container: FileContainer[] = []
 
-        const files = await getFilesFromPath(layoutsDirPath, options)
+        for (const dir of layoutDirs) {
+          const layoutsDirPath = dir.substr(0, 1) === '/' ? normalizePath(dir) : normalizePath(resolve(config.root, dir))
 
-        const importCode = getImportCode(files, options)
+          debug('Loading Layout Dir: %O', layoutsDirPath)
+
+          const _f = await getFilesFromPath(layoutsDirPath, options)
+          container.push({ path: layoutsDirPath, files: _f })
+        }
+
+        const importCode = getImportCode(container, options)
 
         const clientCode = getClientCode(importCode, options)
 
         debug('Client code: %O', clientCode)
-
         return clientCode
       }
     },

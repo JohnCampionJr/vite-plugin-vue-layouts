@@ -17,6 +17,13 @@
     "dist",
     "client.d.ts"
   ],
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    },
+    "./*": "./*"
+  },
   "scripts": {
     "dev": "npm run build -- --watch",
     "build": "tsup src/index.ts --dts --format cjs,esm",

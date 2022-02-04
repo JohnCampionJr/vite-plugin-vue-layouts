@@ -19,7 +19,8 @@ function resolveOptions(userOptions: UserOptions): ResolvedOptions {
   return Object.assign(
     {
       defaultLayout: 'default',
-      layoutsDirs: 'src/layouts',
+      layoutsDir: 'src/layouts',
+      extensions: ['vue'],
       exclude: [],
       importMode: defaultImportMode,
     },

@@ -14,7 +14,7 @@ const config = defineConfig({
       syncIndex: false,
     }),
     Layouts({
-      defaultLayout: 'Default'
+      defaultLayout: 'default'
     }),
     Markdown(),
   ],

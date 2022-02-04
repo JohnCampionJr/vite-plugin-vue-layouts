@@ -6,7 +6,7 @@ interface Options {
    * Relative path to the directory to search for page components.
    * @default 'src/layouts'
    */
-  layoutsDir: string
+  layoutsDirs: string | string[]
   /**
    * Valid file extensions for page components.
    * @default ['vue']
@@ -27,6 +27,10 @@ interface Options {
   importMode: (name: string) => 'sync' | 'async'
 }
 
+export type FileContainer = {
+  path: string
+  files: string[]
+}
 export type UserOptions = Partial<Options>
 
 export interface ResolvedOptions extends Options {}

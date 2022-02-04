@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.6.0] - 2022-02-04
+
+### Added
+
+- Added extensions option - [@deathpresence](https://github.com/deathpresence)
+- Added multiple layout dirs (closed #45) - [@domsen123](https://github.com/domsen123)
+
+**Breaking Change**
+`layoutsDir` option is now called `layoutsDirs`
+
+### Fixed
+
+- Fixed ESM imports (closed #50) - [@josh-hemphill](https://github.com/josh-hemphill)
+
 ## [0.5.0] - 2021-09-21
 
 ### Added

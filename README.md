@@ -73,7 +73,7 @@ If you want type definition of `virtual:generated-layouts`, add `vite-plugin-vue
 
 ```ts
 interface UserOptions {
-  layoutsDir?: string
+  layoutsDirs?: string | string[]
   exclude: string[]
   defaultLayout?: string
 }
@@ -90,17 +90,19 @@ import Layouts from 'vite-plugin-vue-layouts';
 export default {
   plugins: [
     Layouts({
-      layoutsDir: 'src/mylayouts',
+      layoutsDirs: 'src/mylayouts',
       defaultLayout: 'myDefault'
     }),
   ],
 };
 ```
 
-### layoutsDir
+### layoutsDirs
 
 Relative path to the layouts directory. Supports globs.
 All .vue files in this folder are imported async into the generated code.
+
+Can also be an array of layout dirs
 
 Any files named `__*__.vue` will be excluded, and you can specify any additional exclusions with the `exclude` option
 

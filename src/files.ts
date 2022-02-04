@@ -1,7 +1,7 @@
 import fg from 'fast-glob'
 import { ResolvedOptions } from './types'
 import { extensionsToGlob } from './utils'
-
+import { debug, normalizePath } from './utils'
 /**
  * Resolves the files that are valid pages for the given context.
  */
@@ -12,6 +12,7 @@ export async function getFilesFromPath(path: string, options: ResolvedOptions): 
   } = options
 
   const ext = extensionsToGlob(extensions)
+  debug(extensions)
 
   const files = await fg(`**/*.${ext}`, {
     ignore: ['node_modules', '.git', '**/__*__/*', ...exclude],

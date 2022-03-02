@@ -1,5 +1,5 @@
 import { resolve } from 'path'
-import type { Plugin, ResolvedConfig } from 'vite'
+import type { ModuleNode, Plugin, ResolvedConfig } from 'vite'
 import { ResolvedOptions, UserOptions, FileContainer } from './types'
 import { getFilesFromPath } from './files'
 import { debug, normalizePath } from './utils'
@@ -38,6 +38,41 @@ function layoutPlugin(userOptions: UserOptions = {}): Plugin {
     enforce: 'pre',
     configResolved(_config) {
       config = _config
+    },
+    configureServer({ moduleGraph, watcher, ws }) {
+      watcher.add(options.layoutsDirs)
+
+      const reloadModule = (module: ModuleNode | undefined, path = '*') => {
+        if (module) {
+          moduleGraph.invalidateModule(module)
+          if (ws) {
+            ws.send({
+              path,
+              type: 'full-reload',
+            })
+          }
+        }
+      }
+
+      const updateVirtualModule = () => {
+        const module = moduleGraph.getModuleById(MODULE_ID_VIRTUAL)
+
+        reloadModule(module)
+      }
+
+      watcher.on('add', () => {
+        updateVirtualModule()
+      })
+
+      watcher.on('unlink', () => {
+        updateVirtualModule()
+      })
+
+      watcher.on('change', async(path) => {
+        path = `/${normalizePath(path)}`
+        const module = await moduleGraph.getModuleByUrl(path)
+        reloadModule(module, path)
+      })
     },
     resolveId(id) {
       return MODULE_IDS.includes(id) || MODULE_IDS.some(i => id.startsWith(i))

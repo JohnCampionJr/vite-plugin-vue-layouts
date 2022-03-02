@@ -1,8 +1,7 @@
-import { dirname, join, parse } from 'path'
+import { join, parse } from 'path'
 import { ResolvedOptions, FileContainer } from './types'
 
 export function getImportCode(files: FileContainer[], options: ResolvedOptions) {
-  const layoutDirs = Array.isArray(options.layoutsDirs) ? options.layoutsDirs : [options.layoutsDirs]
   const imports: string[] = []
   const head: string[] = []
   let id = 0

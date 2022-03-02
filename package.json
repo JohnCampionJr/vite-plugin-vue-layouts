@@ -36,9 +36,9 @@
     "example:serve-ssg": "npm -C examples/ssg run serve"
   },
   "dependencies": {
-    "@vue/compiler-sfc": "^3.2.4",
-    "debug": "^4.3.2",
-    "fast-glob": "^3.2.7"
+    "@vue/compiler-sfc": "^3.2.31",
+    "debug": "^4.3.3",
+    "fast-glob": "^3.2.11"
   },
   "peerDependencies": {
     "vite": "^2.5.0",
@@ -48,14 +48,14 @@
   "devDependencies": {
     "@antfu/eslint-config": "^0.7.0",
     "@types/debug": "^4.1.7",
-    "@types/node": "^16.6.2",
-    "@typescript-eslint/eslint-plugin": "^4.29.2",
+    "@types/node": "^16.11.26",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
     "eslint": "^7.32.0",
-    "rollup": "^2.56.2",
+    "rollup": "^2.68.0",
     "tsup": "^4.14.0",
-    "typescript": "^4.3.5",
-    "vite": "^2.5.0",
-    "vue": "^3.2.4",
-    "vue-router": "^4.0.11"
+    "typescript": "^4.6.2",
+    "vite": "^2.8.6",
+    "vue": "^3.2.31",
+    "vue-router": "^4.0.13"
   }
 }

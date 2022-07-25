@@ -1,7 +1,7 @@
 import fg from 'fast-glob'
 import { ResolvedOptions } from './types'
-import { extensionsToGlob } from './utils'
-import { debug, normalizePath } from './utils'
+import { extensionsToGlob, debug } from './utils'
+
 /**
  * Resolves the files that are valid pages for the given context.
  */

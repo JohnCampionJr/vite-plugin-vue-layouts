@@ -8,6 +8,7 @@ export function setupLayouts(routes) {
   return routes.map(route => {
     return { 
       path: route.path,
+      meta: route.meta,
       component: layouts[route.meta?.layout || '${options.defaultLayout}'],
       children: [ {...route, path: ''} ],
     }

@@ -6,12 +6,11 @@ ${importCode}
 
 export function setupLayouts(routes) {
   return routes.map(route => {
-    const destRoute = { 
+    return { 
       path: route.path,
       component: layouts[route.meta?.layout || '${options.defaultLayout}'],
+      children: route.path === '/' ? [route] : [{...route, path: ''}]}
     }
-    if (route.path !== '/') destRoute.children = [ {...route, path: ''} ]
-    return destRoute
   })
 }
 `

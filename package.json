@@ -41,9 +41,9 @@
     "fast-glob": "^3.2.11"
   },
   "peerDependencies": {
-    "vite": "^2.5.0 || ^3.0.0-0",
+    "vite": "^2.5.0 || ^3.0.0-0 || ^4.0.0",
     "vue": "^2.6.12 || ^3.2.4",
-    "vue-router": "^3.5.1 || ^ 4.0.11"
+    "vue-router": "^3.5.1 || ^4.0.11"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.7.0",

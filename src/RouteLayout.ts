@@ -10,7 +10,7 @@ export function setupLayouts(routes) {
       path: route.path,
       meta: route.meta,
       component: layouts[route.meta?.layout || '${options.defaultLayout}'],
-      children: [ {...route, path: ''} ],
+      children: route.path === '/' ? [route] : [{...route, path: ''}]
     }
   })
 }

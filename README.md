@@ -194,7 +194,7 @@ Emit the event in `page.vue`:
 ```html
 <script setup>
 import { defineEmit } from 'vue'
-const emit = defineEmit(['color'])
+const emit = defineEmit(['setColor'])
 
 if (2 + 2 === 4)
   emit('setColor', 'green')

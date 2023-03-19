@@ -19,14 +19,20 @@
   ],
   "exports": {
     ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
     },
     "./*": "./*"
   },
   "scripts": {
     "dev": "npm run build -- --watch",
-    "build": "tsup src/index.ts --dts --format cjs,esm",
+    "build": "tsup src/index.ts --dts --format cjs,esm && cp dist/index.d.ts dist/index.d.mts",
     "prepublishOnly": "npm run build",
     "release": "npx bumpp --commit --tag --push && npm publish",
     "example:dev": "npm -C examples/spa run dev",

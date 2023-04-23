@@ -6,11 +6,16 @@ ${importCode}
 
 export function setupLayouts(routes) {
   return routes.map(route => {
-    return { 
-      path: route.path,
-      meta: route.meta,
-      component: layouts[route.meta?.layout || '${options.defaultLayout}'],
-      children: route.path === '/' ? [route] : [{...route, path: ''}]
+    const isBoolean = typeof route.meta?.layout === 'boolean'
+    if(isBoolean && !route.meta?.layout) {
+      return route
+    } else {
+      let componentName = !isBoolean && route.meta?.layout ? route.meta?.layout : '${options.defaultLayout}'
+      return {
+        path: route.path,
+        component: layouts[componentName],
+        children: route.path === '/' ? [route] : [{...route, path: ''}]
+      }
     }
   })
 }

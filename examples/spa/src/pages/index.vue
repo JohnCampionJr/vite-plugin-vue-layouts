@@ -17,6 +17,11 @@
         sub layout
       </router-link>
     </p>
+    <p>
+      <router-link to="/nolayout">
+        no layout
+      </router-link>
+    </p>
   </div>
 </template>
 

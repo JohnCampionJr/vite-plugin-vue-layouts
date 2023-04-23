@@ -14,7 +14,7 @@ export function setupLayouts(routes) {
       return {
         path: route.path,
         component: layouts[componentName],
-        children: [ {...route, path: ''} ],
+        children: route.path === '/' ? [route] : [{...route, path: ''}]
       }
     }
   })

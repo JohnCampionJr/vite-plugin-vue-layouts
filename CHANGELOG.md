@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.8.0] - 2023-02-18
+
+- Vite 4.0 support
+
+## [0.7.0] - 2022-07-24
+
+- Vite 3.0 support
+
 ## [0.6.0] - 2022-02-04
 
 ### Added

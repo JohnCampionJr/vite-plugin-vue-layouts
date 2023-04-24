@@ -42,9 +42,9 @@
     "example:serve-ssg": "npm -C examples/ssg run serve"
   },
   "dependencies": {
-    "@vue/compiler-sfc": "^3.2.31",
     "debug": "^4.3.3",
-    "fast-glob": "^3.2.11"
+    "fast-glob": "^3.2.11",
+    "local-pkg": "^0.4.3"
   },
   "peerDependencies": {
     "vite": "^2.5.0 || ^3.0.0-0 || ^4.0.0",
@@ -56,6 +56,7 @@
     "@types/debug": "^4.1.7",
     "@types/node": "^16.11.26",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "cross-env": "^7.0.3",
     "eslint": "^7.32.0",
     "rollup": "^2.68.0",
     "tsup": "^4.14.0",

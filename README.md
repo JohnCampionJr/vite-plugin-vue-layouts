@@ -236,7 +236,7 @@ export default {
   plugins: [
     ClientSideLayout({
       layoutsDir: 'src/mylayouts', // default to 'src/layout'
-      defaultLayout: 'myDefault.vue', // default to 'default.vue'
+      defaultLayout: 'myDefault', // default to 'default', no need '.vue'
       importMode: 'sync' // The default will automatically detect -> ssg is sync，other is async
     }),
   ],

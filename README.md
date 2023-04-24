@@ -220,3 +220,26 @@ const setBg = (color) => {
   </main>
 </template>
 ```
+
+## ClientSideLayout
+
+The clientSideLayout uses a simpler [virtual file](https://vitejs.dev/guide/api-plugin.html#importing-a-virtual-file) + [glob import](https://vitejs.dev/guide/features.html#glob-import) scheme, This means that its hmr is faster and more accurate, but also more limited
+
+
+### Usage
+
+```js
+// vite.config.js
+import { ClientSideLayout } from 'vite-plugin-vue-layouts'
+
+export default {
+  plugins: [
+    ClientSideLayout({
+      layoutsDir: 'src/mylayouts', // default to 'src/layout'
+      defaultLayout: 'myDefault.vue', // default to 'default.vue'
+      importMode: 'sync' // The default will automatically detect -> ssg is sync，other is async
+    }),
+  ],
+};
+```
+

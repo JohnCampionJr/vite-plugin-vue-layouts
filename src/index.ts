@@ -1,10 +1,18 @@
 import { resolve } from 'path'
+
 import type { ModuleNode, Plugin, ResolvedConfig } from 'vite'
-import { ResolvedOptions, UserOptions, FileContainer } from './types'
+import { createVirtualModuleCode } from './clientSide'
 import { getFilesFromPath } from './files'
-import { debug, normalizePath } from './utils'
-import getClientCode from './RouteLayout'
 import { getImportCode } from './importCode'
+import getClientCode from './RouteLayout'
+import { debug, normalizePath } from './utils'
+
+import type {
+  clientSideOptions,
+  FileContainer,
+  ResolvedOptions,
+  UserOptions,
+} from './types'
 
 const MODULE_IDS = ['layouts-generated', 'virtual:generated-layouts']
 const MODULE_ID_VIRTUAL = '/@vite-plugin-vue-layouts/generated-layouts'
@@ -12,6 +20,7 @@ const MODULE_ID_VIRTUAL = '/@vite-plugin-vue-layouts/generated-layouts'
 export function defaultImportMode(name: string) {
   if (process.env.VITE_SSG)
     return 'sync'
+
   return name === 'default' ? 'sync' : 'async'
 }
 
@@ -28,7 +37,7 @@ function resolveOptions(userOptions: UserOptions): ResolvedOptions {
   )
 }
 
-function layoutPlugin(userOptions: UserOptions = {}): Plugin {
+export default function Layout(userOptions: UserOptions = {}): Plugin {
   let config: ResolvedConfig
 
   const options: ResolvedOptions = resolveOptions(userOptions)
@@ -81,11 +90,15 @@ function layoutPlugin(userOptions: UserOptions = {}): Plugin {
     },
     async load(id) {
       if (id === MODULE_ID_VIRTUAL) {
-        const layoutDirs = Array.isArray(options.layoutsDirs) ? options.layoutsDirs : [options.layoutsDirs]
+        const layoutDirs = Array.isArray(options.layoutsDirs)
+          ? options.layoutsDirs
+          : [options.layoutsDirs]
         const container: FileContainer[] = []
 
         for (const dir of layoutDirs) {
-          const layoutsDirPath = dir.substr(0, 1) === '/' ? normalizePath(dir) : normalizePath(resolve(config.root, dir))
+          const layoutsDirPath = dir.substr(0, 1) === '/'
+            ? normalizePath(dir)
+            : normalizePath(resolve(config.root, dir))
 
           debug('Loading Layout Dir: %O', layoutsDirPath)
 
@@ -104,5 +117,29 @@ function layoutPlugin(userOptions: UserOptions = {}): Plugin {
   }
 }
 
+export function ClientSideLayout(options?: clientSideOptions): Plugin {
+  const {
+    layoutDir = 'src/layouts',
+    defaultLayout = 'default',
+    importMode = process.env.VITE_SSG ? 'sync' : 'async',
+  } = options || {}
+  return {
+    name: 'vite-plugin-vue-layouts',
+    resolveId(id) {
+      return MODULE_IDS.includes(id) || MODULE_IDS.some(i => id.startsWith(i))
+        ? MODULE_ID_VIRTUAL
+        : null
+    },
+    async load(id) {
+      if (id === MODULE_ID_VIRTUAL) {
+        return createVirtualModuleCode({
+          layoutDir,
+          importMode,
+          defaultLayout,
+        })
+      }
+    },
+  }
+}
+
 export * from './types'
-export default layoutPlugin

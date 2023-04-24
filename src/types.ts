@@ -34,3 +34,20 @@ export type FileContainer = {
 export type UserOptions = Partial<Options>
 
 export interface ResolvedOptions extends Options {}
+
+export interface clientSideOptions {
+  /**
+   * layouts dir
+   * @default "src/layouts"
+   */
+  layoutDir?: string
+  /**
+   * default layout
+   * @default "default"
+   */
+  defaultLayout?: string
+  /**
+   * default auto resolve
+   */
+  importMode: 'sync' | 'async'
+}

@@ -28,7 +28,10 @@
         "default": "./dist/index.js"
       }
     },
-    "./*": "./*"
+    "./*": "./*",
+    "./client": {
+      "types": "./client.d.ts"
+    }
   },
   "scripts": {
     "dev": "npm run build -- --watch",

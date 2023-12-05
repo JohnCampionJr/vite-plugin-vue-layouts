@@ -49,7 +49,7 @@ In main.ts, you need to add a few lines to import the generated code and setup t
 ```js
 import { createRouter } from 'vue-router'
 import { setupLayouts } from 'virtual:generated-layouts'
-import generatedRoutes from 'virtual:generated-pages'
+import generatedRoutes from '~pages'
 
 const routes = setupLayouts(generatedRoutes)
 

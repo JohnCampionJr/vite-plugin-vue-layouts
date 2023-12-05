@@ -12,22 +12,42 @@ export const createGetRoutes = (router, withLayout = false) => {
 }
 
 export function setupLayouts(routes) {
-  return routes.map(route => {
-    const isBoolean = typeof route.meta?.layout === 'boolean'
-    if(isBoolean && !route.meta?.layout) {
-      return route
-    } else {
-      let componentName = !isBoolean && route.meta?.layout ? route.meta?.layout : '${options.defaultLayout}'
-      return {
-        path: route.path,
-        component: layouts[componentName],
-        children: route.path === '/' ? [route] : [{...route, path: ''}],
-        meta: {
-          isLayout: true
+  function deepSetupLayout(routes, top = true) {
+    return routes.map(route => {
+      if (route.children?.length > 0) {
+        route.children = deepSetupLayout(route.children, false)
+      }
+
+      if (!route.component) return route
+      
+      if (top && route.meta?.layout !== false) {
+        return { 
+          path: route.path,
+          component: layouts[route.meta?.layout || '${options.defaultLayout}'],
+          children: route.path === '/' ? [route] : [{...route, path: ''}],
+          meta: {
+            isLayout: true
+          }
         }
       }
-    }
-  })
+
+      if (route.meta?.layout) {
+        return { 
+          path: route.path,
+          component: layouts[route.meta?.layout],
+          children: [ {...route, path: ''} ],
+          meta: {
+            isLayout: true
+          }
+        }
+      }
+
+      return route
+    })
+  }
+
+    return deepSetupLayout(routes)
+
 }
 `
   return code

@@ -32,6 +32,11 @@
         module 2 layout
       </router-link>
     </p>
+    <p>
+      <router-link to="/second">
+        second level layout
+      </router-link>
+    </p>
   </div>
 </template>
 

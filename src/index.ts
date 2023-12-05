@@ -1,5 +1,5 @@
 import { resolve } from 'path'
-
+import fg from 'fast-glob'
 import type { ModuleNode, Plugin, ResolvedConfig } from 'vite'
 import { createVirtualModuleCode } from './clientSide'
 import { getFilesFromPath } from './files'
@@ -94,8 +94,20 @@ export default function Layout(userOptions: UserOptions = {}): Plugin {
           ? options.layoutsDirs
           : [options.layoutsDirs]
         const container: FileContainer[] = []
+        const layoutDirsResolved: string[] = []
 
         for (const dir of layoutDirs) {
+          if (dir.includes('**')) {
+            const matches = await fg(dir, { onlyDirectories: true })
+            for (const match of matches)
+              layoutDirsResolved.push(normalizePath(resolve(config.root, match)))
+          }
+          else {
+            layoutDirsResolved.push(dir)
+          }
+        }
+
+        for (const dir of layoutDirsResolved) {
           const layoutsDirPath = dir.substr(0, 1) === '/'
             ? normalizePath(dir)
             : normalizePath(resolve(config.root, dir))

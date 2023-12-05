@@ -14,7 +14,8 @@ const config = defineConfig({
       syncIndex: false,
     }),
     Layouts({
-      defaultLayout: 'default'
+      defaultLayout: 'default',
+      layoutsDirs: ['src/layouts', 'src/**/layouts'],
     }),
     Markdown(),
   ],

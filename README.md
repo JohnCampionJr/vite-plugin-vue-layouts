@@ -104,6 +104,8 @@ All .vue files in this folder are imported async into the generated code.
 
 Can also be an array of layout dirs
 
+Can use `**` to support scenarios like `module1/layouts` and `modules2/layouts` with a setting of `src/**/layouts`
+
 Any files named `__*__.vue` will be excluded, and you can specify any additional exclusions with the `exclude` option
 
 **Default:** `'src/layouts'`

@@ -22,6 +22,16 @@
         no layout
       </router-link>
     </p>
+    <p>
+      <router-link to="/module1">
+        module 1 layout
+      </router-link>
+    </p>
+    <p>
+      <router-link to="/module2">
+        module 2 layout
+      </router-link>
+    </p>
   </div>
 </template>
 

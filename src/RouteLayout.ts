@@ -3,6 +3,13 @@ import { ResolvedOptions } from './types'
 function getClientCode(importCode: string, options: ResolvedOptions) {
   const code = `
 ${importCode}
+export const createGetRoutes = (router, withLayout = false) => {
+  const routes = router.getRoutes()
+  if (withLayout) {
+      return routes
+  }
+  return () => routes.filter(route => !route.meta.isLayout)
+}
 
 export function setupLayouts(routes) {
   return routes.map(route => {
@@ -14,7 +21,10 @@ export function setupLayouts(routes) {
       return {
         path: route.path,
         component: layouts[componentName],
-        children: route.path === '/' ? [route] : [{...route, path: ''}]
+        children: route.path === '/' ? [route] : [{...route, path: ''}],
+        meta: {
+          isLayout: true
+        }
       }
     }
   })

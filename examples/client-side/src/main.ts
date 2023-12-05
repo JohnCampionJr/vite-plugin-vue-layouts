@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
-import { setupLayouts } from 'virtual:generated-layouts'
+import { createGetRoutes, setupLayouts } from 'virtual:generated-layouts'
 import generatedRoutes from 'virtual:generated-pages'
 import App from './App.vue'
 import './index.css'
@@ -12,6 +12,8 @@ const router = createRouter({
   routes,
 })
 
+const getRoutes = createGetRoutes(router)
+console.log(getRoutes())
 const app = createApp(App)
 
 app.use(router)

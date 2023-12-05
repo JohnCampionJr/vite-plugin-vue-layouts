@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
 import Pages from 'vite-plugin-pages'
 import Layouts from 'vite-plugin-vue-layouts'
-import Markdown from 'vite-plugin-md'
+import Markdown from 'unplugin-vue-markdown/vite'
 
 const config = defineConfig({
   plugins: [
@@ -14,7 +14,7 @@ const config = defineConfig({
       syncIndex: false,
     }),
     Layouts(),
-    Markdown(),
+    Markdown({}),
   ],
   ssgOptions: {
     formatting: 'prettify',

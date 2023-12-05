@@ -1,17 +1,8 @@
 import { posix } from 'path'
-import { getPackageInfo } from 'local-pkg'
 
 function normalizePath(path: string) {
   path = path.startsWith('/') ? path : `/${path}`
   return posix.normalize(path)
-}
-
-export async function isVite2() {
-  const info = await getPackageInfo('vite')
-  if (info)
-    return parseInt(info.version) === 2
-
-  return false
 }
 
 interface VirtualModuleCodeOptions {
@@ -25,9 +16,6 @@ async function createVirtualGlob(
   isSync: boolean,
 ) {
   const g = `"${target}/**/*.vue"`
-  if (await isVite2())
-    return isSync ? `import.meta.globEager(${g})` : `import.meta.glob(${g})`
-
   return `import.meta.glob(${g}, { eager: ${isSync} })`
 }
 

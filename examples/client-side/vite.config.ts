@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
 import Pages from 'vite-plugin-pages'
-import Markdown from 'vite-plugin-md'
+import Markdown from 'unplugin-vue-markdown/vite'
 import { ClientSideLayout } from 'vite-plugin-vue-layouts'
 
 const config = defineConfig({
@@ -14,7 +14,7 @@ const config = defineConfig({
       syncIndex: false,
     }),
     ClientSideLayout(),
-    Markdown(),
+    Markdown({}),
   ],
 })
 

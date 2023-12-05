@@ -1,11 +1,10 @@
 import { resolve } from 'path'
-import fg from 'fast-glob'
 import type { ModuleNode, Plugin, ResolvedConfig } from 'vite'
 import { createVirtualModuleCode } from './clientSide'
 import { getFilesFromPath } from './files'
 import { getImportCode } from './importCode'
 import getClientCode from './RouteLayout'
-import { debug, normalizePath } from './utils'
+import { debug, normalizePath, resolveDirs } from './utils'
 
 import type {
   clientSideOptions,
@@ -29,7 +28,7 @@ function resolveOptions(userOptions: UserOptions): ResolvedOptions {
     {
       defaultLayout: 'default',
       layoutsDirs: 'src/layouts',
-      pagesDir: null,
+      pagesDirs: 'src/pages',
       extensions: ['vue'],
       exclude: [],
       importMode: defaultImportMode,
@@ -40,14 +39,21 @@ function resolveOptions(userOptions: UserOptions): ResolvedOptions {
 
 export default function Layout(userOptions: UserOptions = {}): Plugin {
   let config: ResolvedConfig
-
+  
   const options: ResolvedOptions = resolveOptions(userOptions)
+
+  let layoutDirs: string[]
+  let pagesDirs: string[]
+
+  // const pagesDirs = resolveDirs(options.pagesDirs, config.root)
 
   return {
     name: 'vite-plugin-vue-layouts',
     enforce: 'pre',
     configResolved(_config) {
       config = _config
+      layoutDirs = resolveDirs(options.layoutsDirs, config.root)
+      pagesDirs = resolveDirs(options.pagesDirs, config.root)
     },
     configureServer({ moduleGraph, watcher, ws }) {
       watcher.add(options.layoutsDirs)
@@ -64,17 +70,18 @@ export default function Layout(userOptions: UserOptions = {}): Plugin {
         }
       }
 
-      const absolutePagesDir = options.pagesDir ? normalizePath(resolve(process.cwd(), options.pagesDir)) : null
+//       const absolutePagesDir = options.pagesDir ? normalizePath(resolve(process.cwd(), options.pagesDir)) : null
 
       const updateVirtualModule = (path: string) => {
-        path = `${normalizePath(path)}`
+        path = normalizePath(path)
 
-        // If absolutePagesDir is defined and path doesn't correspond to pagesDir
-        if (absolutePagesDir && !~path.indexOf(absolutePagesDir))
-          return
-
-        const module = moduleGraph.getModuleById(MODULE_ID_VIRTUAL)
-        reloadModule(module)
+        if (pagesDirs.length === 0 ||
+            pagesDirs.some(dir => path.startsWith(dir)) ||
+            layoutDirs.some(dir => path.startsWith(dir))) {
+          debug('reload', path)
+          const module = moduleGraph.getModuleById(MODULE_ID_VIRTUAL)
+          reloadModule(module)
+        }
       }
 
       watcher.on('add', (path) => {
@@ -86,9 +93,7 @@ export default function Layout(userOptions: UserOptions = {}): Plugin {
       })
 
       watcher.on('change', async(path) => {
-        path = `/${normalizePath(path)}`
-        const module = await moduleGraph.getModuleByUrl(path)
-        reloadModule(module, path)
+        updateVirtualModule(path)
       })
     },
     resolveId(id) {
@@ -98,24 +103,9 @@ export default function Layout(userOptions: UserOptions = {}): Plugin {
     },
     async load(id) {
       if (id === MODULE_ID_VIRTUAL) {
-        const layoutDirs = Array.isArray(options.layoutsDirs)
-          ? options.layoutsDirs
-          : [options.layoutsDirs]
         const container: FileContainer[] = []
-        const layoutDirsResolved: string[] = []
 
         for (const dir of layoutDirs) {
-          if (dir.includes('**')) {
-            const matches = await fg(dir, { onlyDirectories: true })
-            for (const match of matches)
-              layoutDirsResolved.push(normalizePath(resolve(config.root, match)))
-          }
-          else {
-            layoutDirsResolved.push(dir)
-          }
-        }
-
-        for (const dir of layoutDirsResolved) {
           const layoutsDirPath = dir.substr(0, 1) === '/'
             ? normalizePath(dir)
             : normalizePath(resolve(config.root, dir))

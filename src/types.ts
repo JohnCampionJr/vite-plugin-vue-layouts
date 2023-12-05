@@ -9,9 +9,9 @@ interface Options {
   layoutsDirs: string | string[]
   /**
    * Relative path to the pages directory.
-   * @default null
+   * @default 'src/pages'
    */
-  pagesDir?: string
+  pagesDirs: string | string[] | null
   /**
    * Valid file extensions for page components.
    * @default ['vue']

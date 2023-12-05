@@ -114,11 +114,13 @@ Any files named `__*__.vue` will be excluded, and you can specify any additional
 
 ### pagesDir
 
-Set this to avoid HMR reloading for all added or deleted files anywhere in the projet.
+Defines the pages dir to avoid HMR reloading for all added or deleted files anywhere in the projet.
 
-Relative path to the pages directory.
+Relative path to the pages directory.  If you want it to watch for all files, like in v0.8.0 or earlier, set to null.
 
-**Default:** `null`
+Can also be an array of layout dirs or use `**` glob patterns
+
+**Default:** `'src/pages'`
 
 ## How it works
 

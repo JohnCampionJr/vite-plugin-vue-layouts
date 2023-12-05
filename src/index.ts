@@ -29,6 +29,7 @@ function resolveOptions(userOptions: UserOptions): ResolvedOptions {
     {
       defaultLayout: 'default',
       layoutsDirs: 'src/layouts',
+      pagesDir: null,
       extensions: ['vue'],
       exclude: [],
       importMode: defaultImportMode,
@@ -63,18 +64,25 @@ export default function Layout(userOptions: UserOptions = {}): Plugin {
         }
       }
 
-      const updateVirtualModule = () => {
-        const module = moduleGraph.getModuleById(MODULE_ID_VIRTUAL)
+      const absolutePagesDir = options.pagesDir ? normalizePath(resolve(process.cwd(), options.pagesDir)) : null
 
+      const updateVirtualModule = (path: string) => {
+        path = `${normalizePath(path)}`
+
+        // If absolutePagesDir is defined and path doesn't correspond to pagesDir
+        if (absolutePagesDir && !~path.indexOf(absolutePagesDir))
+          return
+
+        const module = moduleGraph.getModuleById(MODULE_ID_VIRTUAL)
         reloadModule(module)
       }
 
-      watcher.on('add', () => {
-        updateVirtualModule()
+      watcher.on('add', (path) => {
+        updateVirtualModule(path)
       })
 
-      watcher.on('unlink', () => {
-        updateVirtualModule()
+      watcher.on('unlink', (path) => {
+        updateVirtualModule(path)
       })
 
       watcher.on('change', async(path) => {

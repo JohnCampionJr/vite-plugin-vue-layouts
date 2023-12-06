@@ -13,8 +13,8 @@ import type {
   UserOptions,
 } from './types'
 
-const MODULE_IDS = ['layouts-generated', 'virtual:generated-layouts']
-const MODULE_ID_VIRTUAL = '/@vite-plugin-vue-layouts/generated-layouts'
+const virtualModuleId = 'virtual:generated-layouts'
+const resolvedVirtualModuleId = '\0' + virtualModuleId
 
 export function defaultImportMode(name: string) {
   if (process.env.VITE_SSG)
@@ -136,12 +136,12 @@ export function ClientSideLayout(options?: clientSideOptions): Plugin {
   return {
     name: 'vite-plugin-vue-layouts',
     resolveId(id) {
-      return MODULE_IDS.includes(id) || MODULE_IDS.some(i => id.startsWith(i))
-        ? MODULE_ID_VIRTUAL
-        : null
+      if (id === virtualModuleId) {
+        return resolvedVirtualModuleId
+      }
     },
     async load(id) {
-      if (id === MODULE_ID_VIRTUAL) {
+      if (id === resolvedVirtualModuleId) {
         return createVirtualModuleCode({
           layoutDir,
           importMode,

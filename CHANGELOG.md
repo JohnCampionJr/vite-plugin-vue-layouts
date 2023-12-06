@@ -2,6 +2,53 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.9.0...v0.9.1
+
+[compare changes](https://github.com/johncampionjr/vite-plugin-vue-layouts/compare/699638bf817e1f93c32266af78efadd95b28c6e1...v0.9.1)
+
+### 🩹 Fixes
+
+- **ClientSideLayout:** More user-friendly virtual ID, close #126 ([#127](https://github.com/johncampionjr/vite-plugin-vue-layouts/pull/127), [#126](https://github.com/johncampionjr/vite-plugin-vue-layouts/issues/126))
+
+### ❤️ Contributors
+
+- Yeser ([@yeli19950109](http://github.com/yeli19950109))
+
+## v0.8.0...v0.9.0
+
+[compare changes](https://github.com/johncampionjr/vite-plugin-vue-layouts/compare/95a54f17859dbcb8444f29f6368d1517e581a075...v0.9.0)
+
+#### ⚠️ Breaking Changes
+
+- ⚠️  Remove vue2, vite2 and vite3 ([db752fa](https://github.com/johncampionjr/vite-plugin-vue-layouts/commit/db752fa))
+
+### 🚀 Enhancements
+
+- Add no layout support ([eaaa8c3](https://github.com/johncampionjr/vite-plugin-vue-layouts/commit/eaaa8c3))
+- Add client-side ([c278c0d](https://github.com/johncampionjr/vite-plugin-vue-layouts/commit/c278c0d))
+- Alternative getRoutes that filters layouts ([31d3474](https://github.com/johncampionjr/vite-plugin-vue-layouts/commit/31d3474))
+- Support layout dir globs ([1cead57](https://github.com/johncampionjr/vite-plugin-vue-layouts/commit/1cead57))
+
+### 🩹 Fixes
+
+- Layouts on nested routes / unplugin-vue-router ([406a402](https://github.com/johncampionjr/vite-plugin-vue-layouts/commit/406a402))
+- Only watch pages and layouts dir for module reloading ([526fbf6](https://github.com/johncampionjr/vite-plugin-vue-layouts/commit/526fbf6))
+
+### 📖 Documentation
+
+- Fix ClientSideLayout ([ec525fc](https://github.com/johncampionjr/vite-plugin-vue-layouts/commit/ec525fc))
+- Vite-plugin-pages ([2591b2c](https://github.com/johncampionjr/vite-plugin-vue-layouts/commit/2591b2c))
+
+### 🏀 Examples
+
+- Added vitesse for easier testing ([9f4419d](https://github.com/johncampionjr/vite-plugin-vue-layouts/commit/9f4419d))
+
+### ❤️ Contributors
+
+- John Campion Jr <john@brightshore.com>
+- Markthree ([@markthree](http://github.com/markthree))
+- Xbmlz ([@xbmlz](http://github.com/xbmlz))
+
 ## [0.8.0] - 2023-02-18
 
 - Vite 4.0 support

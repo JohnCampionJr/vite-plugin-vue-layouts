@@ -136,17 +136,20 @@ export function ClientSideLayout(options?: clientSideOptions): Plugin {
   return {
     name: 'vite-plugin-vue-layouts',
     resolveId(id) {
-      return MODULE_IDS.includes(id) || MODULE_IDS.some(i => id.startsWith(i))
-        ? MODULE_ID_VIRTUAL
-        : null
+      const MODULE_ID = MODULE_IDS.find((MODULE_ID) => id === MODULE_ID);
+      if (MODULE_ID) {
+        return `\0` + MODULE_ID;
+      }
     },
-    async load(id) {
-      if (id === MODULE_ID_VIRTUAL) {
+    load(id) {
+      if (
+        MODULE_IDS.some((MODULE_ID) => id === `\0${MODULE_ID}`)
+      ) {
         return createVirtualModuleCode({
           layoutDir,
           importMode,
           defaultLayout,
-        })
+        });
       }
     },
   }

@@ -46,6 +46,7 @@ export default {
 
 In main.ts, you need to add a few lines to import the generated code and setup the layouts.
 
+## vue-router
 ```js
 import { createRouter } from 'vue-router'
 import { setupLayouts } from 'virtual:generated-layouts'
@@ -57,6 +58,17 @@ const router = createRouter({
   // ...
   routes,
 });
+```
+
+## [unplugin-vue-router](https://github.com/posva/unplugin-vue-router)
+```js
+import { createRouter } from 'vue-router/auto'
+import { setupLayouts } from 'virtual:generated-layouts'
+
+const router = createRouter({
+  // ...
+  extendRoutes: (routes) => setupLayouts(routes),
+})
 ```
 
 ## Client Types

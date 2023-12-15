@@ -17,14 +17,12 @@ export function setupLayouts(routes) {
       if (route.children?.length > 0) {
         route.children = deepSetupLayout(route.children, false)
       }
-
-      if (!route.component) return route
       
       if (top && route.meta?.layout !== false) {
         return { 
           path: route.path,
           component: layouts[route.meta?.layout || '${options.defaultLayout}'],
-          children: route.path === '/' ? [route] : [{...route, path: ''}],
+          children: [ {...route, path: ''} ],
           meta: {
             isLayout: true
           }

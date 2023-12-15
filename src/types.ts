@@ -38,7 +38,7 @@ export type FileContainer = {
 }
 export type UserOptions = Partial<Options>
 
-export interface ResolvedOptions extends Options {}
+export interface ResolvedOptions extends Options { }
 
 export interface clientSideOptions {
   /**
@@ -54,5 +54,5 @@ export interface clientSideOptions {
   /**
    * default auto resolve
    */
-  importMode: 'sync' | 'async'
+  importMode?: 'sync' | 'async'
 }

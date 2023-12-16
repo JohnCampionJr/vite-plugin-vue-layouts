@@ -54,5 +54,5 @@ export interface clientSideOptions {
   /**
    * default auto resolve
    */
-  importMode: 'sync' | 'async'
+  importMode?: 'sync' | 'async'
 }

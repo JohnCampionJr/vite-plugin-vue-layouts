@@ -38,6 +38,15 @@ function resolveOptions(userOptions: UserOptions): ResolvedOptions {
 }
 
 export default function Layout(userOptions: UserOptions = {}): Plugin {
+
+  // If the customization level is not high, enable clientLayout to support better performance 
+  if (canEnableClientLayout(userOptions)) {
+    return ClientSideLayout({
+      defaultLayout: userOptions.defaultLayout,
+      layoutDir: userOptions.layoutsDirs as string
+    })
+  }
+
   let config: ResolvedConfig
   
   const options: ResolvedOptions = resolveOptions(userOptions)
@@ -153,6 +162,21 @@ export function ClientSideLayout(options?: clientSideOptions): Plugin {
       }
     },
   }
+}
+
+function canEnableClientLayout(options: UserOptions) {
+  const keys = Object.keys(options)
+
+  // Non isomorphic options
+  if (keys.length > 2 || keys.some(key => !['layoutDirs', 'defaultLayout'].includes(key))) {
+    return false
+  }
+  //  arrays and glob cannot be isomorphic either
+  if (options.layoutsDirs && (Array.isArray(options.layoutsDirs) || options.layoutsDirs.includes("*"))) {
+    return false
+  }
+
+  return true
 }
 
 export * from './types'

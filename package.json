@@ -1,33 +1,33 @@
 {
   "name": "vite-plugin-vue-layouts",
-  "version": "0.9.1",
+  "version": "0.10.0",
   "description": "Router based layout plugin for Vite and Vue",
+  "author": "johncampionjr <npm@relate.dev>",
   "license": "MIT",
+  "homepage": "https://github.com/johncampionjr/vite-plugin-vue-layouts",
   "repository": {
     "type": "git",
     "url": "https://github.com/johncampionjr/vite-plugin-vue-layouts"
   },
-  "author": "johncampionjr <npm@relate.dev>",
-  "files": [
-    "dist",
-    "client.d.ts"
-  ],
+  "bugs": "https://github.com/johncampionjr/vite-plugin-vue-layouts",
   "exports": {
     "./client": {
       "types": "./client.d.ts"
     },
     "./*": "./*",
     ".": {
-      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.js"
     }
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
-  "homepage": "https://github.com/johncampionjr/vite-plugin-vue-layouts",
-  "bugs": "https://github.com/johncampionjr/vite-plugin-vue-layouts",
+  "files": [
+    "client.d.ts",
+    "dist"
+  ],
   "scripts": {
     "dev": "npm run build -- --watch",
     "build": "tsup src/index.ts --dts --format cjs,esm",

@@ -1,8 +1,4 @@
-import antfu from '@antfu/eslint-config'
+// eslint.config.js
+const antfu = require('@antfu/eslint-config').default
 
-export default antfu(
-  {
-    unocss: true,
-    formatters: true,
-  },
-)
+module.exports = antfu()

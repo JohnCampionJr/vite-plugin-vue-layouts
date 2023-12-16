@@ -51,6 +51,7 @@ declare module 'vue-router/auto/routes' {
     '/news/': RouteRecordInfo<'/news/', '/news', Record<never, never>, Record<never, never>>,
     'named-news-page': RouteRecordInfo<'named-news-page', '/news/Today', Record<never, never>, Record<never, never>>,
     '/nolayout': RouteRecordInfo<'/nolayout', '/nolayout', Record<never, never>, Record<never, never>>,
+    '/second': RouteRecordInfo<'/second', '/second', Record<never, never>, Record<never, never>>,
     '/second/': RouteRecordInfo<'/second/', '/second', Record<never, never>, Record<never, never>>,
     '/sublayout': RouteRecordInfo<'/sublayout', '/sublayout', Record<never, never>, Record<never, never>>,
   }

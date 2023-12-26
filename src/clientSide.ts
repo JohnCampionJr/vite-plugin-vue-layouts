@@ -1,4 +1,4 @@
-import { posix } from 'path'
+import { posix } from 'node:path'
 
 function normalizePath(path: string) {
   path = path.startsWith('/') ? path : `/${path}`
@@ -55,14 +55,23 @@ export async function createVirtualModuleCode(
         if (route.children?.length > 0) {
           route.children = deepSetupLayout(route.children, false)
         }
-        
-        if (top && route.meta?.layout !== false) {
-          return { 
-            path: route.path,
-            component: layouts[route.meta?.layout || '${defaultLayout}'],
-            children: [ {...route, path: ''} ],
-            meta: {
-              isLayout: true
+
+        if (top) {
+          // unplugin-vue-router adds a top-level route to the routing group, which we should skip.
+          const skipLayout = !route.component && route.children?.find(r => (r.path === '' || r.path === '/') && r.meta?.isLayout)  
+
+          if (skipLayout) {
+            return route
+          }
+
+          if (route.meta?.layout !== false) {
+            return { 
+              path: route.path,
+              component: layouts[route.meta?.layout || '${defaultLayout}'],
+              children: [ {...route, path: ''} ],
+              meta: {
+                isLayout: true
+              }
             }
           }
         }

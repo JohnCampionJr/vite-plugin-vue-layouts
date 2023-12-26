@@ -1,4 +1,4 @@
-import { posix } from 'path'
+import { posix } from 'node:path'
 
 function normalizePath(path: string) {
   path = path.startsWith('/') ? path : `/${path}`
@@ -60,7 +60,7 @@ export async function createVirtualModuleCode(
           return { 
             path: route.path,
             component: layouts[route.meta?.layout || '${defaultLayout}'],
-            children: [ {...route, path: ''} ],
+            children: route.path === '/' ? [route] : [{...route, path: ''}],
             meta: {
               isLayout: true
             }

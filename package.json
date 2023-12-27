@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-vue-layouts",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "Router based layout plugin for Vite and Vue",
   "author": "johncampionjr <npm@relate.dev>",
   "license": "MIT",

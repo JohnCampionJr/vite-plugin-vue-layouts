@@ -68,7 +68,7 @@ export async function createVirtualModuleCode(
             return { 
               path: route.path,
               component: layouts[route.meta?.layout || '${defaultLayout}'],
-              children: [ {...route, path: ''} ],
+              children: route.path === '/' ? [route] : [{...route, path: ''}],
               meta: {
                 isLayout: true
               }

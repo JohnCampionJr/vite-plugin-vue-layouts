@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.10.0...v0.11.0
+
+[compare changes](https://github.com/johncampionjr/vite-plugin-vue-layouts/compare/v0.10.0...v0.11.0)
+
+
+#### ⚠️ Breaking Changes
+
+- **unplugin-vue-router:** ⚠️  Skip top-level route layout for index route children ([#137](https://github.com/johncampionjr/vite-plugin-vue-layouts/pull/137))
+
+### ❤️ Contributors
+
+- Markthree ([@markthree](http://github.com/markthree))
+
 ## v0.9.1...v0.10.0
 
 [compare changes](https://github.com/johncampionjr/vite-plugin-vue-layouts/compare/v0.9.1...v0.10.0)

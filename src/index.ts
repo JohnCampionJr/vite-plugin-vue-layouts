@@ -1,4 +1,4 @@
-import { resolve } from 'node:path'
+import { resolve } from 'path'
 import type { ModuleNode, Plugin, ResolvedConfig } from 'vite'
 import { createVirtualModuleCode } from './clientSide'
 import { getFilesFromPath } from './files'
@@ -7,10 +7,10 @@ import getClientCode from './RouteLayout'
 import { debug, normalizePath, resolveDirs } from './utils'
 
 import type {
+  clientSideOptions,
   FileContainer,
   ResolvedOptions,
   UserOptions,
-  clientSideOptions,
 } from './types'
 
 const MODULE_IDS = ['layouts-generated', 'virtual:generated-layouts']
@@ -38,16 +38,17 @@ function resolveOptions(userOptions: UserOptions): ResolvedOptions {
 }
 
 export default function Layout(userOptions: UserOptions = {}): Plugin {
-  // If the customization level is not high, enable clientLayout to support better performance
+
+  // If the customization level is not high, enable clientLayout to support better performance 
   if (canEnableClientLayout(userOptions)) {
     return ClientSideLayout({
       defaultLayout: userOptions.defaultLayout,
-      layoutDir: userOptions.layoutsDirs as string,
+      layoutDir: userOptions.layoutsDirs as string
     })
   }
 
   let config: ResolvedConfig
-
+  
   const options: ResolvedOptions = resolveOptions(userOptions)
 
   let layoutDirs: string[]
@@ -78,21 +79,17 @@ export default function Layout(userOptions: UserOptions = {}): Plugin {
         }
       }
 
-      //       const absolutePagesDir = options.pagesDir ? normalizePath(resolve(process.cwd(), options.pagesDir)) : null
+//       const absolutePagesDir = options.pagesDir ? normalizePath(resolve(process.cwd(), options.pagesDir)) : null
 
       const updateVirtualModule = (path: string) => {
         path = normalizePath(path)
 
-        if (pagesDirs.length === 0
-          || pagesDirs.some(dir => match(dir))
-          || layoutDirs.some(dir => match(dir))) {
+        if (pagesDirs.length === 0 ||
+            pagesDirs.some(dir => path.startsWith(dir)) ||
+            layoutDirs.some(dir => path.startsWith(dir))) {
           debug('reload', path)
           const module = moduleGraph.getModuleById(MODULE_ID_VIRTUAL)
           reloadModule(module)
-        }
-
-        function match(dir: string) {
-          return path.startsWith(dir) || normalizePath(resolve(config.root, path)).startsWith(dir)
         }
       }
 
@@ -104,7 +101,7 @@ export default function Layout(userOptions: UserOptions = {}): Plugin {
         updateVirtualModule(path)
       })
 
-      watcher.on('change', async (path) => {
+      watcher.on('change', async(path) => {
         updateVirtualModule(path)
       })
     },
@@ -148,19 +145,20 @@ export function ClientSideLayout(options?: clientSideOptions): Plugin {
   return {
     name: 'vite-plugin-vue-layouts',
     resolveId(id) {
-      const MODULE_ID = MODULE_IDS.find(MODULE_ID => id === MODULE_ID)
-      if (MODULE_ID)
-        return `\0${MODULE_ID}`
+      const MODULE_ID = MODULE_IDS.find((MODULE_ID) => id === MODULE_ID);
+      if (MODULE_ID) {
+        return `\0` + MODULE_ID;
+      }
     },
     load(id) {
       if (
-        MODULE_IDS.some(MODULE_ID => id === `\0${MODULE_ID}`)
+        MODULE_IDS.some((MODULE_ID) => id === `\0${MODULE_ID}`)
       ) {
         return createVirtualModuleCode({
           layoutDir,
           importMode,
           defaultLayout,
-        })
+        });
       }
     },
   }
@@ -170,12 +168,13 @@ function canEnableClientLayout(options: UserOptions) {
   const keys = Object.keys(options)
 
   // Non isomorphic options
-  if (keys.length > 2 || keys.some(key => !['layoutDirs', 'defaultLayout'].includes(key)))
+  if (keys.length > 2 || keys.some(key => !['layoutDirs', 'defaultLayout'].includes(key))) {
     return false
-
+  }
   //  arrays and glob cannot be isomorphic either
-  if (options.layoutsDirs && (Array.isArray(options.layoutsDirs) || options.layoutsDirs.includes('*')))
+  if (options.layoutsDirs && (Array.isArray(options.layoutsDirs) || options.layoutsDirs.includes("*"))) {
     return false
+  }
 
   return true
 }

@@ -86,7 +86,7 @@ If you want type definition of `virtual:generated-layouts`, add `vite-plugin-vue
 ```ts
 interface UserOptions {
   layoutsDirs?: string | string[]
-  pagesDir?: string
+  pagesDirs?: string | string[] | null
   exclude: string[]
   defaultLayout?: string
 }
@@ -104,7 +104,7 @@ export default {
   plugins: [
     Layouts({
       layoutsDirs: 'src/mylayouts',
-      pagesDir: 'src/pages',
+      pagesDirs: 'src/pages',
       defaultLayout: 'myDefault'
     }),
   ],
@@ -124,9 +124,9 @@ Any files named `__*__.vue` will be excluded, and you can specify any additional
 
 **Default:** `'src/layouts'`
 
-### pagesDir
+### pagesDirs
 
-Defines the pages dir to avoid HMR reloading for all added or deleted files anywhere in the projet.
+Defines the pages dir to avoid HMR reloading for all added or deleted files anywhere in the project.
 
 Relative path to the pages directory.  If you want it to watch for all files, like in v0.8.0 or earlier, set to null.
 
